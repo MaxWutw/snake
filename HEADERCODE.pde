@@ -5,9 +5,9 @@ import java.util.List;
 void keyPressed(){ 
   int newdir = keyCode == DOWN ? 0 : (keyCode == UP ? 1 : (keyCode == RIGHT ? 2 : (keyCode == LEFT ? 3 : -1)));
   if(newdir != -1) direction = newdir;
-  if(key == 'w' || key == 'W') {
+  if(key == 'w' || key == 'W'){
     reverse_snake();
-    delay(1000);
+    delay(100);
   }
 }
 
@@ -19,7 +19,7 @@ void reverse_snake(){
   //  else fill(0, 255, 0); // GREEN
   //  rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
   //}
-  direction = (direction + 2) % 4;
+  direction = (direction == 0 ? 1 : (direction == 1 ? 0 : (direction == 2 ? 3 : direction == 3 ? 2 : 0)));
 }
 
 void snake_head(){
