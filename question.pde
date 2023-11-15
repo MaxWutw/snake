@@ -1,7 +1,11 @@
-void question(){
-  fill(200, 0, 200); 
+void show_question(boolean first){
+  fill(200, 0, 200);
   textSize(30); 
   textAlign(CENTER); 
   textFont(TCfont);
-  text("請問1+1等於多少? (A)1 (B)2 (C)3 (D)4", width / 2, height * 2 / 3);
+  if(first) q_num = int(random(0, questions.size()));
+  JSONObject question1 = questions.getJSONObject(q_num);
+  String questionText = question1.getString("question");
+  text(questionText, width / 2, height * 2 / 3);
+  String ans = question1.getString("answer");
 }

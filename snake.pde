@@ -4,10 +4,15 @@ import java.util.List;
 
 PFont TCfont;
 ArrayList<Integer> x = new ArrayList<Integer>(), y = new ArrayList<Integer>();
-int w = 72, h = 37, blocks = 20, direction = 2, foodx = 15, foody = 15, speed = 8, fc1 = 255, fc2 = 255, fc3 = 255; 
-int[]x_direction={0, 0, 1, -1}, y_direction={1, -1, 0, 0}; //direction for x and y
+int w = 72, h = 37, blocks = 20, direction = 2, speed = 8, fc1 = 255, fc2 = 255, fc3 = 255; 
+int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
 boolean gameover = false;
-PImage img;
+PImage img[] = new PImage[5];
+JSONArray questions;
+boolean first_show_question = true;
+//int foodx = 15, foody = 15;
+int q_num;
+int foodx[] = new int[5], foody[] = new int[5];
 
 void setup(){ 
   size(1440, 750); 
@@ -15,25 +20,27 @@ void setup(){
   y.add(15);
   img = loadImage("image/apple.png");
   TCfont = createFont("./Noto_Sans_TC/static/NotoSansTC-Black.ttf", 28);
+  questions = loadJSONArray("data/questions.json");
   init_arraylist_for_debug(5);
 }
 
 
 void draw(){  
   background(0);
-  question();
+  show_question(first_show_question);
+  first_show_question = false;
   snake_head();
   //fill(0, 255, 0); //snake color green
   //for (int i = 0; i < x.size(); i++)
   //  rect(x.get(i)*blocks, y.get(i)*blocks, blocks, blocks); //snake
-  //if(key == 'w' || key == 'W'){
-  //  reverse_snake();
-  //  delay(1000);
-  //}
   if(!gameover){
     fill(fc1, fc2, fc3); //food color red
     //ellipse(foodx*blocks+10, foody*blocks+10, blocks, blocks); //food
-    image(img, foodx*blocks, foody*blocks, 30, 30);
+    //image(img, foodx*blocks, foody*blocks, 30, 30);
+    //image(a, foodx*blocks, foody*blocks, 30, 30);
+    //image(b, foodx*blocks, foody*blocks, 30, 30);
+    //image(c, foodx*blocks, foody*blocks, 30, 30);
+    //image(d, foodx*blocks, foody*blocks, 30, 30);
     textAlign(LEFT); //score
     textSize(25);
     fill(255);
