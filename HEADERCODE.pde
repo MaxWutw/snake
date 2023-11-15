@@ -23,7 +23,7 @@ void reverse_snake(){
 }
 
 void snake_head(){
-  for (int i = 0; i < x.size(); i++){
+  for(int i = 0; i < x.size(); i++){
     if(i == 0) fill(255, 0, 0); // RED
     else fill(0, 255, 0); // GREEN
     rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
@@ -40,7 +40,7 @@ void gameover_message(){
     y.clear(); 
     x.add(0);  
     y.add(15);
-    init_arraylist_for_debug(5);
+    //init_arraylist_for_debug(5);
     direction = 2;
     speed = 8;
     gameover = false;
