@@ -28,10 +28,15 @@ int screen = 0;
 
 void setup() { 
   size(1440, 750); 
+
   x.add(0); //snake start position
   y.add(15);
+
   img = loadImage("image/apple.png");
   TCfont = createFont("./Noto_Sans_TC/static/NotoSansTC-Black.ttf", 28);
+
+  textFont(TCfont);
+
   questions = loadJSONArray("data/questions.json");
   //init_arraylist_for_debug(5);
 }
@@ -46,6 +51,9 @@ void draw() {
       break;
     case 2:
       helpScreen();
+      break;
+    case 3:
+      aboutUsScreen();
       break;
     case 0:
     default:
