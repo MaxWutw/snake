@@ -11,6 +11,20 @@ void keyPressed(){
   }
 }
 
+void mousePressed() {
+  if (onHomeButton() != -1) {
+    screen = onHomeButton() + 1;
+  }
+}
+
+void setCursor() {
+  if ((onHomeButton() != -1) && (screen == 0)) {
+    cursor(HAND);
+  } else {
+    cursor(ARROW);
+  }
+}
+
 void reverse_snake(){
   Collections.reverse(x);
   Collections.reverse(y);
@@ -26,6 +40,9 @@ void snake_head(){
   for(int i = 0; i < x.size(); i++){
     if(i == 0) fill(255, 0, 0); // RED
     else fill(0, 255, 0); // GREEN
+
+    stroke(255);
+    strokeWeight(1.5);
     rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
   }
 }
