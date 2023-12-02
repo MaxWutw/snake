@@ -8,20 +8,24 @@ void keyPressed(){
   if(key == 'w' || key == 'W'){
     reverse_snake();
     delay(100);
+  } else if (screen == 4 && keyCode == ENTER) {
+    resetGame();
+    screen = 1;
   }
 }
 
 void mousePressed() {
   if (((onHomeButton() != -1) && (screen == 0))) {
     screen = onHomeButton() + 1;
-  } else if (((onBackToHomeButton()) && (screen == 2 || screen == 3))) {
+  } else if (((onBackToHomeButton()) && (screen == 2 || screen == 3 || screen == 4))) {
+    if (screen == 4) resetGame();
     screen = 0;
   }
 }
 
 void setCursor() {
   if (((onHomeButton() != -1) && (screen == 0)) ||
-      ((onBackToHomeButton()) && (screen == 2 || screen == 3))) {
+      ((onBackToHomeButton()) && (screen == 2 || screen == 3 || screen == 4))) {
     cursor(HAND);
   } else {
     cursor(ARROW);

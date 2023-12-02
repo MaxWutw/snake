@@ -19,7 +19,7 @@ void homeScreen() {
     float w = homeButtonX;
     float h = homeButtonY + (homeButtonHeight + homeButtonSpace) * i;
 
-    drawHomeButton(homeButtonString[i], w, h);
+    drawHomeScreenButton(homeButtonString[i], w, h);
   }
 }
 
@@ -36,7 +36,7 @@ void drawTitle(String name, float x, float y) {
   popMatrix();
 }
 
-void drawHomeButton(String name, float x, float y) {
+void drawHomeScreenButton(String name, float x, float y) {
   pushMatrix();
 
   translate(x, y);
