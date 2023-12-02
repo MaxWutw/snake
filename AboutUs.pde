@@ -4,16 +4,16 @@ String rightsTerm = "copyright © All Rights Reserved.\n本作品不做任何商
 
 float aboutUsMessageX = screenWidth / 2;
 
-float aboutUsHeaderFontSize  = 36;
-float aboutUsContentFontSize = 24;
+float aboutUsHeaderSize  = 36;
+float aboutUsContentSize = 24;
 
 void aboutUsScreen() {
-  drawMessage("= 團隊 =", aboutUsMessageX, 100, aboutUsHeaderFontSize);
-  drawMessage(teamMemberString, aboutUsMessageX, 150, aboutUsContentFontSize);
+  drawMessage("= 團隊 =", aboutUsMessageX, 100, aboutUsHeaderSize, #ffffff);
+  drawMessage(teamMemberString, aboutUsMessageX, 150, aboutUsContentSize, #999999);
 
-  drawMessage("= 版權宣告 =", aboutUsMessageX, 430, aboutUsHeaderFontSize);
-  drawMessage(rightsTerm, aboutUsMessageX, 480, aboutUsContentFontSize);
+  drawMessage("= 版權宣告 =", aboutUsMessageX, 430, aboutUsHeaderSize, #ffffff);
+  drawMessage(rightsTerm, aboutUsMessageX, 480, aboutUsContentSize, #999999);
 
-  drawBackToHomeButton();
+  drawButton("Home", backToHomeButtonX, backToHomeButtonY,
+    backToHomeButtonWidth, backToHomeButtonHeight);
 }
-

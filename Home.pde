@@ -13,47 +13,15 @@ int homeButtonAmount = 3;
 String[] homeButtonString = {"Play", "Help", "About Us"};
 
 void homeScreen() {
-  drawTitle("SNAKE 15 PRO MAX", titleX, titleY);
+  // drawTitle("SNAKE 15 PRO MAX", titleX, titleY);
+  drawMessage("SNAKE 15 PRO MAX", titleX, titleY, 60, #ffffff);
 
   for (int i = 0; i < homeButtonAmount; i++) {
-    float w = homeButtonX;
-    float h = homeButtonY + (homeButtonHeight + homeButtonSpace) * i;
+    float btnX = homeButtonX;
+    float btnY = homeButtonY + (homeButtonHeight + homeButtonSpace) * i;
 
-    drawHomeScreenButton(homeButtonString[i], w, h);
+    drawButton(homeButtonString[i], btnX, btnY, homeButtonWidth, homeButtonHeight);
   }
-}
-
-void drawTitle(String name, float x, float y) {
-  pushMatrix();
-
-  translate(x, y);
-
-  fill(255);
-  textSize(60);
-  textAlign(CENTER, CENTER);
-  text(name, 0, 0);
-
-  popMatrix();
-}
-
-void drawHomeScreenButton(String name, float x, float y) {
-  pushMatrix();
-
-  translate(x, y);
-
-  stroke(255);
-  strokeWeight(2);
-  fill(255);
-
-  rect(0, 0, homeButtonWidth, homeButtonHeight);
-  // drawWord(name, homeButtonWidth/2, homeButtonHeight/2, 20, #000000);
-
-  fill(0);
-  textSize(30);
-  textAlign(CENTER, CENTER);
-  text(name, homeButtonWidth/2, homeButtonHeight/2);
-
-  popMatrix();
 }
 
 /**
