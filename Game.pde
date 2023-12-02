@@ -61,7 +61,7 @@ void gameScreen() {
     //    gameover = true;
     //}
 
-    if(x.get(0) == foodx && y.get(0) == foody){ //new food if we touch
+    if(x.get(0) == foodx && y.get(0) == foody) { //new food if we touch
       if(x.size() % 5 == 0 && speed >= 2) speed -= 1;  // every 5 points speed increase
       foodx = (int)random(0, w); //new food
       foody = (int)random(0, h);
@@ -74,6 +74,31 @@ void gameScreen() {
   }
 }
 
+int newDirection() {
+  if (keyCode == DOWN && (direction != 1 || x.size() == 1)) {
+    return 0;
+  } else if (keyCode == UP && (direction != 0 || x.size() == 1)) {
+    return 1;
+  } else if (keyCode == RIGHT && (direction != 3 || x.size() == 1)) {
+    return 2;
+  } else if (keyCode == LEFT && (direction != 2 || x.size() == 1)) {
+    return 3;
+  }
+
+  return -1;
+}
+
+void reverse_snake(){
+  Collections.reverse(x);
+  Collections.reverse(y);
+  //for (int i = 0; i < x.size(); i++){
+  //  if(i == 0) fill(255, 0, 0); // RED
+  //  else fill(0, 255, 0); // GREEN
+  //  rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
+  //}
+  direction = (direction == 0 ? 1 : (direction == 1 ? 0 : (direction == 2 ? 3 : direction == 3 ? 2 : 0)));
+}
+
 void resetGame() {
   x.clear();
   y.clear();
@@ -81,8 +106,13 @@ void resetGame() {
   x.add(0);
   y.add(15);
 
+  foodx = (int) random(0, w); //new food
+  foody = (int) random(0, h);
+
   //init_arraylist_for_debug(5);
 
   direction = 2;
   speed = 8;
+
+  drawGameOverOnce = true;
 }

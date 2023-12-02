@@ -35,8 +35,11 @@ void setup() {
 }
 
 void draw() {
-  background(0);
   setCursor();
+
+  if (screen != 4) {
+    background(0);
+  }
 
   switch (screen) {
     case 1:
