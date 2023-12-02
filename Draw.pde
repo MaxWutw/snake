@@ -24,7 +24,7 @@ void drawMessage(String name, float x, float y, float fontSize, color fontColor)
 
   fill(fontColor);
   textSize(fontSize);
-  textAlign(CENTER);
+  textAlign(CENTER, CENTER);
   text(name, 0, 0);
 
   popMatrix();

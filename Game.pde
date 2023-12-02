@@ -1,48 +1,30 @@
 ArrayList<Integer> x = new ArrayList<Integer>(), y = new ArrayList<Integer>();
 
-int w = 72, h = 37, blocks = 20, direction = 2, speed = 8, fc1 = 255, fc2 = 255, fc3 = 255; 
+// int w = 72, h = 37, blocks = 20, direction = 2, speed = 8, fc1 = 255, fc2 = 255, fc3 = 255; 
+int w = 72, h = 37, blocks = 20, direction = 2, speed = 8; 
 int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
+
+int blockMinY = 3;
 
 // boolean gameover = false;
 boolean first_show_question = true;
 
-int foodx = 15, foody = 15;
+// int foodx = 15, foody = 15;
 int q_num;
-//int foodx[] = new int[5], foody[] = new int[5];
+
+int[] foodX = {15, 30, 45, 60}, foodY = {20, 20, 20, 20};
+int[] foodColorR = {255, 255, 0, 0}, foodColorG = {0, 255, 255, 0}, foodColorB = {0, 0, 0, 255};
 
 void gameScreen() {
-  show_question(first_show_question);
-  first_show_question = false;
-
-  snake_head();
-  //fill(0, 255, 0); //snake color green
-  //for (int i = 0; i < x.size(); i++)
-  //  rect(x.get(i)*blocks, y.get(i)*blocks, blocks, blocks); //snake
-
   if (isGameOver()) {
     screen = 4;
   }
 
-  stroke(255);
-  strokeWeight(1);
-  fill(fc1, fc2, fc3); //food color red
-  //ellipse(foodx*blocks+10, foody*blocks+10, blocks, blocks); //food
+  drawInfo();
 
-  // rect(foodx*blocks, foody*blocks, 20, 20);
-  circle(foodx * blocks + blocks / 2, foody * blocks + blocks / 2, 20);
+  drawSnake();
 
-  // image(img, foodx*blocks, foody*blocks, 30, 30);
-  //image(a, foodx*blocks, foody*blocks, 30, 30);
-  //image(b, foodx*blocks, foody*blocks, 30, 30);
-  //image(c, foodx*blocks, foody*blocks, 30, 30);
-  //image(d, foodx*blocks, foody*blocks, 30, 30);
-
-  // textAlign(LEFT); //score
-  textAlign(LEFT, CENTER); //score
-  textSize(25);
-  fill(255);
-  // text("Score: " + x.size(), 10, 10, width - 20, 50);
-  text("Score: " + x.size(), 10, 20);
+  drawFood();
 
   if(frameCount % speed == 0){
     // println(y.get(0));
@@ -54,23 +36,38 @@ void gameScreen() {
     x.add(0, x.get(0) + x_direction[direction]); //make snake longer
     y.add(0, y.get(0) + y_direction[direction]);
 
-    // if(x.get(0) < 0 || y.get(0) < 0 || x.get(0) >= w || y.get(0) >= h) gameover = true; 
-
-    //for(int i = 1;i < x.size();i++){
-    //  if(x.get(0) == x.get(i) && y.get(0) == y.get(i))
-    //    gameover = true;
-    //}
-
-    if(x.get(0) == foodx && y.get(0) == foody) { //new food if we touch
-      if(x.size() % 5 == 0 && speed >= 2) speed -= 1;  // every 5 points speed increase
-      foodx = (int)random(0, w); //new food
-      foody = (int)random(0, h);
-      fc1 = (int)random(255); fc2 = (int)random(255); fc3 = (int)random(255); // new food color
+    if (isFoodEaten()) { //new food if we touch
+      updateSpeed();
+      updateFood();
     }
     else { 
       x.remove(x.size() - 1);
       y.remove(y.size() - 1);
     }
+  }
+}
+
+void drawInfo() {
+  show_question(first_show_question);
+  first_show_question = false;
+
+  String scoreMessage = "Score: " + x.size();
+  drawMessage(scoreMessage, blocks * blockMinY, blocks * blockMinY / 2, 25, 255);
+
+  // Straight line
+  stroke(255);
+  strokeWeight(2);
+  line(0, blocks * blockMinY, width, blocks * blockMinY);
+}
+
+void drawSnake() {
+  for(int i = 0; i < x.size(); i++){
+    if(i == 0) fill(255, 0, 0); // RED
+    else fill(0, 255, 0); // GREEN
+
+    stroke(255);
+    strokeWeight(1.5);
+    rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
   }
 }
 
@@ -99,6 +96,69 @@ void reverse_snake(){
   direction = (direction == 0 ? 1 : (direction == 1 ? 0 : (direction == 2 ? 3 : direction == 3 ? 2 : 0)));
 }
 
+void drawFood() {
+  stroke(255);
+  strokeWeight(1);
+
+  for (int i = 0; i < 4; i++) {
+    float currX = foodX[i] * blocks + blocks / 2;
+    float currY = foodY[i] * blocks + blocks / 2;
+
+    fill(foodColorR[i], foodColorG[i], foodColorB[i]);
+    circle(currX, currY, 20);
+  }
+}
+
+boolean isFoodEaten() {
+  for (int i = 0; i < 4; i++) {
+    if (x.get(0) == foodX[i] && y.get(0) == foodY[i]) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void updateFood() {
+  for (int i = 0; i < 4; i++) {
+    int tempX = 0, tempY = 0;
+    boolean isBadPosition = true;
+
+    while (isBadPosition) {
+      isBadPosition = false;
+      tempX = (int) random(0, w);
+      tempY = (int) random(blockMinY, h);
+
+      int headX = x.get(0);
+      int headY = y.get(0);
+
+      // Prevent close spawn to head of snake
+      if (headX - 2 <= tempX && tempX <= headX + 2 &&
+          headY - 2 <= tempY && tempY <= headY + 2) {
+        isBadPosition = true;
+        continue;
+      }
+
+      // Prevent duplicate food position
+      for (int j = 0; j < i; j++) {
+        if (tempX == foodX[j] && tempY == foodY[j]) {
+          isBadPosition = true;
+          break;
+        }
+      }
+    }
+
+    foodX[i] = tempX;
+    foodY[i] = tempY;
+  }
+}
+
+void updateSpeed() {
+  if(x.size() % 5 == 0 && speed >= 2) {
+    speed -= 1;  // every 5 points speed increase
+  }
+}
+
 void resetGame() {
   x.clear();
   y.clear();
@@ -106,8 +166,15 @@ void resetGame() {
   x.add(0);
   y.add(15);
 
-  foodx = (int) random(0, w); //new food
-  foody = (int) random(0, h);
+  foodX[0] = 15;
+  foodX[1] = 30;
+  foodX[2] = 45;
+  foodX[3] = 60;
+
+  foodY[0] = 20;
+  foodY[1] = 20;
+  foodY[2] = 20;
+  foodY[3] = 20;
 
   //init_arraylist_for_debug(5);
 

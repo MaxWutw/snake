@@ -9,7 +9,7 @@ boolean isGameOver() {
   int headX = x.get(0);
   int headY = y.get(0);
 
-  if (headX < 0 || headY < 0 || headX >= w || headY >= h) {
+  if (headX < 0 || headY < blockMinY || headX >= w || headY >= h) {
     return true;
   }
 

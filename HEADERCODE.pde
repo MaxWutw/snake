@@ -3,9 +3,6 @@ import java.util.Collections;
 import java.util.List;
 
 void keyPressed() {
-  // int newdir = keyCode == DOWN ? 0 : (keyCode == UP ? 1 : (keyCode == RIGHT ? 2 : (keyCode == LEFT ? 3 : -1)));
-  // if(newdir != -1) direction = newdir;
-
   if (newDirection() != -1) {
     direction = newDirection();
   }
@@ -34,17 +31,6 @@ void setCursor() {
     cursor(HAND);
   } else {
     cursor(ARROW);
-  }
-}
-
-void snake_head(){
-  for(int i = 0; i < x.size(); i++){
-    if(i == 0) fill(255, 0, 0); // RED
-    else fill(0, 255, 0); // GREEN
-
-    stroke(255);
-    strokeWeight(1.5);
-    rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
   }
 }
 
