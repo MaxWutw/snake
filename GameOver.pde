@@ -27,7 +27,7 @@ void gameOverScreen() {
     return;
   }
 
-  gameOverMessage = "GAME OVER\nYour Score is: "+ x.size() +"\nPress ENTER to restart";
+  gameOverMessage = "GAME OVER\nYour Score is: " + score + "\nPress ENTER to restart";
   drawMessage(gameOverMessage, gameOverMessageX, gameOverMessageY, 30, #C8C800);
 
   drawButton("Home", backToHomeButtonX, backToHomeButtonY,

@@ -1,15 +1,14 @@
 ArrayList<Integer> x = new ArrayList<Integer>(), y = new ArrayList<Integer>();
 
 // int w = 72, h = 37, blocks = 20, direction = 2, speed = 8, fc1 = 255, fc2 = 255, fc3 = 255; 
-int w = 72, h = 37, blocks = 20, direction = 2, speed = 8; 
+int w = 72, h = 37, blocks = 20, direction = 2, speed = 8;
 int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
 
 int blockMinY = 7;
 
-// boolean gameover = false;
-// boolean first_show_question = true;
+int score = 0;
 
-// int foodx = 15, foody = 15;
+// boolean first_show_question = true;
 
 int[] foodX = {15, 30, 45, 60}, foodY = {20, 20, 20, 20};
 int[][] foodColor = {
@@ -21,9 +20,7 @@ int[][] foodColor = {
 
 void gameScreen() {
   drawInfo();
-
   drawSnake();
-
   drawFood();
 
   if(frameCount % speed == 0){
@@ -38,6 +35,9 @@ void gameScreen() {
 
     int check = checkEatenFood();
     if (check != -1) { //new food if we touch
+      score += addScore(check);
+
+      updateQuestion();
       updateSpeed();
       updateFood();
     }
@@ -55,7 +55,7 @@ void gameScreen() {
 void drawInfo() {
   drawQuestion();
 
-  String scoreMessage = "Score: " + x.size();
+  String scoreMessage = "Score: " + score;
   drawMessage(scoreMessage, blocks * blockMinY, blocks * blockMinY / 2, 25, 255);
 
   // Straight line
@@ -163,6 +163,14 @@ void updateSpeed() {
   }
 }
 
+int addScore(int option) {
+  if (isCorrectAnswer(option)) {
+    return 3;
+  }
+
+  return 1;
+}
+
 void resetGame() {
   x.clear();
   y.clear();
@@ -184,6 +192,8 @@ void resetGame() {
 
   direction = 2;
   speed = 8;
+
+  score = 0;
 
   drawGameOverOnce = true;
 }
