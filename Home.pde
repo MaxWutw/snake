@@ -13,7 +13,6 @@ int homeButtonAmount = 3;
 String[] homeButtonString = {"Play", "Help", "About Us"};
 
 void homeScreen() {
-  // drawTitle("SNAKE 15 PRO MAX", titleX, titleY);
   drawMessage("SNAKE 15 PRO MAX", titleX, titleY, 60, #ffffff);
 
   for (int i = 0; i < homeButtonAmount; i++) {

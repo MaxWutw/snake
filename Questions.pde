@@ -16,15 +16,12 @@ float optionLeftX   = screenWidth / 2 - 200 - optionSpace;
 float optionRightX  = screenWidth / 2 + optionSpace;
 float optionTopX    = blocks * 3;
 float optionBottomX = blocks * 5;
-
 float[][] optionPos = {
   {optionLeftX,  optionTopX},
   {optionRightX, optionTopX},
   {optionLeftX,  optionBottomX},
   {optionRightX, optionBottomX}
 };
-
-// boolean drawNewQuestion = true;
 
 void initQuestion() {
   questions = loadJSONArray("data/questions.json");
@@ -34,12 +31,6 @@ void initQuestion() {
 }
 
 void drawQuestion() {
-  // if(drawNewQuestion) {
-  //   questionNumber = int(random(0, questions.size()));
-  // }
-
-  // JSONObject question = questions.getJSONObject(questionNum);
-
   String questionText = currQuestion.getString("question");
   drawMessage(questionText, questionWidth, questionHeight, questionSize, questionColor);
 
@@ -55,7 +46,6 @@ void drawQuestion() {
     color optionColor = color(foodColor[i][0], foodColor[i][1], foodColor[i][2]);
     drawOption(options[i], optionPos[i][0], optionPos[i][1], optionColor);
   }
-  // drawNewQuestion = false;
 }
 
 void updateQuestion() {

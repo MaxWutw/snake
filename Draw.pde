@@ -17,15 +17,15 @@ void drawButton(String name, float btnX, float btnY, float btnW, float btnH) {
   popMatrix();
 }
 
-void drawMessage(String name, float x, float y, float fontSize, color fontColor) {
+void drawMessage(String message, float messageX, float messageY, float fontSize, color fontColor) {
   pushMatrix();
 
-  translate(x, y);
+  translate(messageX, messageY);
 
   fill(fontColor);
   textSize(fontSize);
   textAlign(CENTER, CENTER);
-  text(name, 0, 0);
+  text(message, 0, 0);
 
   popMatrix();
 }

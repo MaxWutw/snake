@@ -17,10 +17,10 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  if (((onHomeButton() != -1) && (screen == 0))) {
+  if ((onHomeButton() != -1) && (screen == 0)) {
     screen = onHomeButton() + 1;
-  } else if (((onBackToHomeButton()) && (screen == 2 || screen == 3 || screen == 4))) {
-    if (screen == 4) resetGame();
+  } else if ((onBackToHomeButton()) && (screen == 2 || screen == 3 || screen == 4)) {
+    resetGame();
     screen = 0;
   }
 }
