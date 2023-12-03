@@ -4,22 +4,22 @@ ArrayList<Integer> x = new ArrayList<Integer>(), y = new ArrayList<Integer>();
 int w = 72, h = 37, blocks = 20, direction = 2, speed = 8; 
 int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
 
-int blockMinY = 3;
+int blockMinY = 7;
 
 // boolean gameover = false;
-boolean first_show_question = true;
+// boolean first_show_question = true;
 
 // int foodx = 15, foody = 15;
-int q_num;
 
 int[] foodX = {15, 30, 45, 60}, foodY = {20, 20, 20, 20};
-int[] foodColorR = {255, 255, 0, 0}, foodColorG = {0, 255, 255, 0}, foodColorB = {0, 0, 0, 255};
+int[][] foodColor = {
+  {255, 0, 0},
+  {255, 255, 0},
+  {0, 255, 0},
+  {0, 0, 255}
+};
 
 void gameScreen() {
-  if (isGameOver()) {
-    screen = 4;
-  }
-
   drawInfo();
 
   drawSnake();
@@ -36,20 +36,24 @@ void gameScreen() {
     x.add(0, x.get(0) + x_direction[direction]); //make snake longer
     y.add(0, y.get(0) + y_direction[direction]);
 
-    if (isFoodEaten()) { //new food if we touch
+    int check = checkEatenFood();
+    if (check != -1) { //new food if we touch
       updateSpeed();
       updateFood();
     }
-    else { 
+    else {
       x.remove(x.size() - 1);
       y.remove(y.size() - 1);
     }
   }
+
+  if (isGameOver()) {
+    screen = 4;
+  }
 }
 
 void drawInfo() {
-  show_question(first_show_question);
-  first_show_question = false;
+  drawQuestion();
 
   String scoreMessage = "Score: " + x.size();
   drawMessage(scoreMessage, blocks * blockMinY, blocks * blockMinY / 2, 25, 255);
@@ -104,19 +108,19 @@ void drawFood() {
     float currX = foodX[i] * blocks + blocks / 2;
     float currY = foodY[i] * blocks + blocks / 2;
 
-    fill(foodColorR[i], foodColorG[i], foodColorB[i]);
+    fill(foodColor[i][0], foodColor[i][1], foodColor[i][2]);
     circle(currX, currY, 20);
   }
 }
 
-boolean isFoodEaten() {
+int checkEatenFood() {
   for (int i = 0; i < 4; i++) {
     if (x.get(0) == foodX[i] && y.get(0) == foodY[i]) {
-      return true;
+      return i;
     }
   }
 
-  return false;
+  return -1;
 }
 
 void updateFood() {

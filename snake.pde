@@ -4,7 +4,6 @@ import java.util.List;
 
 PFont TCfont;
 PImage img;
-JSONArray questions;
 
 int screenWidth = 1440;
 int screenHeight = 740;
@@ -19,8 +18,8 @@ int screenHeight = 740;
  */
 int screen = 0;
 
-void setup() { 
-  size(1440, 740); 
+void setup() {
+  size(1440, 740);
 
   x.add(0); //snake start position
   y.add(15);
@@ -30,7 +29,7 @@ void setup() {
 
   textFont(TCfont);
 
-  questions = loadJSONArray("data/questions.json");
+  initQuestion();
   //init_arraylist_for_debug(5);
 }
 
