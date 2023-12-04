@@ -1,16 +1,14 @@
 ArrayList<Integer> x = new ArrayList<Integer>(), y = new ArrayList<Integer>();
 
-// int w = 72, h = 37, blocks = 20, direction = 2, speed = 8, fc1 = 255, fc2 = 255, fc3 = 255; 
-int w = 72, h = 37, blocks = 20, direction = 2, speed = 8;
+int w = 72, h = 37, blocks = 20, direction = 2;
 int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
 
 int blockMinY = 7;
 
+float speed = 8, counter = 0;
+
 int score = 0;
 
-// boolean first_show_question = true;
-
-// int[] foodX = {15, 30, 45, 60}, foodY = {20, 20, 20, 20};
 int[][] foodPos = {
   {15, 20},
   {30, 20},
@@ -29,7 +27,9 @@ void gameScreen() {
   drawSnake();
   drawFood();
 
-  if (frameCount % speed == 0) {
+  counter += speed;
+
+  if (counter >= 60) {
     // println(y.get(0));
     // if(key == 'a'){
     //   for(int i = 0;i < x.size();i++) print(x.get(i) + " ");
@@ -54,6 +54,8 @@ void gameScreen() {
     else {
       decreaseSnakeLength();
     }
+
+    counter = 0;
   }
 
   if (isGameOver()) {
@@ -65,7 +67,10 @@ void drawInfo() {
   drawQuestion();
 
   String scoreMessage = "Score: " + score;
-  drawMessage(scoreMessage, blocks * blockMinY, blocks * blockMinY / 2, 25, 255);
+  drawMessage(scoreMessage, blocks * 4, blocks * blockMinY / 2, 25, 255);
+
+  String speedMessage = "Speed: " + String.format("%.1f", speed);
+  drawMessage(speedMessage, blocks * 14, blocks * blockMinY / 2, 25, 255);
 
   // Straight line
   stroke(255);
@@ -177,9 +182,10 @@ void updateFood() {
 }
 
 void updateSpeed() {
-  if(x.size() % 5 == 0 && speed >= 2) {
-    speed -= 1;  // every 5 points speed increase
-  }
+  speed = 8 + (x.size() - 1) * 0.2;
+  // if(x.size() % 5 == 0 && speed >= 2) {
+  //   speed -= 1;  // every 5 points speed increase
+  // }
 }
 
 int addScore(int option) {
