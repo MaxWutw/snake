@@ -7,13 +7,12 @@ void keyPressed() {
     direction = newDirection();
   }
 
-  if(key == 'w' || key == 'W'){
-    reverse_snake();
-    delay(100);
-  } else if (screen == 4 && keyCode == ENTER) {
+  if (screen == 4 && keyCode == ENTER) {
     resetGame();
     screen = 1;
   }
+
+  checkSkillKeyPressed();
 }
 
 void mousePressed() {

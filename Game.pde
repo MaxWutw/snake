@@ -1,6 +1,15 @@
 ArrayList<Integer> x = new ArrayList<Integer>(), y = new ArrayList<Integer>();
 
-int w = 72, h = 37, blocks = 20, direction = 2;
+int w = 72, h = 37, blocks = 20;
+
+/**
+ * Definition of direction
+ * 0: Down
+ * 1: Up
+ * 2: Right
+ * 3: Left
+ */
+int direction = 2;
 int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
 
 int blockMinY = 7;
@@ -28,6 +37,10 @@ void gameScreen() {
   drawFood();
 
   counter += speed;
+
+  if (isGameOver()) {
+    screen = 4;
+  }
 
   if (counter >= 60) {
     // println(y.get(0));
@@ -57,14 +70,12 @@ void gameScreen() {
 
     counter = 0;
   }
-
-  if (isGameOver()) {
-    screen = 4;
-  }
 }
 
 void drawInfo() {
   drawQuestion();
+
+  drawSkillPanel();
 
   String scoreMessage = "Score: " + score;
   drawMessage(scoreMessage, blocks * 4, blocks * blockMinY / 2, 25, 255);
@@ -79,7 +90,7 @@ void drawInfo() {
 }
 
 void drawSnake() {
-  for (int i = 0; i < x.size(); i++) {
+  for (int i = x.size() - 1; i >= 0; i--) {
     if (i == 0) fill(255, 0, 0); // RED
     else fill(0, 255, 0); // GREEN
 
@@ -111,13 +122,6 @@ int newDirection() {
   }
 
   return -1;
-}
-
-void reverse_snake(){
-  Collections.reverse(x);
-  Collections.reverse(y);
-
-  direction = (direction == 0 ? 1 : (direction == 1 ? 0 : (direction == 2 ? 3 : direction == 3 ? 2 : 0)));
 }
 
 void drawFood() {
@@ -219,6 +223,8 @@ void resetGame() {
   speed = 8;
 
   score = 0;
+
+  resetCooldown();
 
   drawGameOverOnce = true;
 }

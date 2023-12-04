@@ -4,6 +4,13 @@ A snake project
 
 ## Changelog
 
+### 2023-12-04
+
+* Add
+  * Skills panel, skills cooldown system
+* Modify
+  * Speed system
+
 ### 2023-12-03
 
 * Modify

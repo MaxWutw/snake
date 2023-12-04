@@ -36,6 +36,8 @@ void setup() {
 void draw() {
   setCursor();
 
+  skillCooldownTimer();
+
   if (screen != 4) {
     background(0);
   }
