@@ -41,7 +41,10 @@ void draw() {
   if (screen != 4) {
     background(0);
   }
-
+  
+  //image(mov, 0, 0, width, height);
+  //delay((int)(mov.duration() * 1000));
+  //frameRate(60);
   switch (screen) {
     case 1:
       gameScreen();
@@ -54,6 +57,9 @@ void draw() {
       break;
     case 4:
       gameOverScreen();
+      break;
+    case 5:
+      videoScreen();
       break;
     case 0:
     default:

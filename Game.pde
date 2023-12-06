@@ -37,7 +37,6 @@ void gameScreen() {
   drawFood();
 
   counter += speed;
-
   if (isGameOver()) {
     screen = 4;
   }
@@ -56,6 +55,8 @@ void gameScreen() {
       // Add length if the answer is incorrect
       if (addScore(check) == 0) {
         increaseSnakeLength();
+        screen = 5;
+        adver();
       }
 
       score += addScore(check);
