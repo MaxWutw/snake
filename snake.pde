@@ -28,7 +28,7 @@ void setup() {
   TCfont = createFont("./Noto_Sans_TC/static/NotoSansTC-Black.ttf", 28);
 
   textFont(TCfont);
-
+  //videoSetup();
   initQuestion();
   //init_arraylist_for_debug(5);
 }

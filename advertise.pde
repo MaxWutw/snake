@@ -12,8 +12,6 @@ void videoScreen(){
 
 int adver(){
   frameRate(30);
-  translate(0, 0);
-  background(0);
   mov = new Movie(this, "spongbob.mp4");
   mov.play();
   mov.speed(0);
@@ -24,9 +22,7 @@ int adver(){
   return 0;
 }
 
-void videoSetup(){
-  translate(0, 0);
-  background(0);
-  mov.speed(0);
-  mov.volume(100);
-}
+//void videoSetup(){
+//  mov.speed(0);
+//  mov.volume(100);
+//}
