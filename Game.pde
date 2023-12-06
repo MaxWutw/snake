@@ -56,7 +56,6 @@ void gameScreen() {
       if (addScore(check) == 0) {
         increaseSnakeLength();
         screen = 5;
-        adver();
       }
 
       score += addScore(check);

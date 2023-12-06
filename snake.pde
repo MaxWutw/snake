@@ -30,6 +30,9 @@ void setup() {
   textFont(TCfont);
   //videoSetup();
   initQuestion();
+
+  videoSetup();
+
   //init_arraylist_for_debug(5);
 }
 
