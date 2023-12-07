@@ -14,7 +14,8 @@ int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x
 
 int blockMinY = 7;
 
-float speed = 8, counter = 0;
+float speed = 10, dSpeed = 0.4;
+float counter = 0, maxCounter = 100;
 
 int score = 0;
 
@@ -41,7 +42,7 @@ void gameScreen() {
     screen = 4;
   }
 
-  if (counter >= 60) {
+  if (counter >= maxCounter) {
     // println(y.get(0));
     // if(key == 'a'){
     //   for(int i = 0;i < x.size();i++) print(x.get(i) + " ");
@@ -61,14 +62,14 @@ void gameScreen() {
       score += addScore(check);
 
       updateQuestion();
-      updateSpeed();
+      updateSpeed(check);
       updateFood();
     }
     else {
       decreaseSnakeLength();
     }
 
-    counter = 0;
+    counter -= maxCounter;
   }
 }
 
@@ -124,72 +125,12 @@ int newDirection() {
   return -1;
 }
 
-void drawFood() {
-  stroke(255);
-  strokeWeight(1);
-
-  for (int i = 0; i < 4; i++) {
-    float currX = foodPos[i][0] * blocks + blocks / 2;
-    float currY = foodPos[i][1] * blocks + blocks / 2;
-
-    fill(foodColor[i][0], foodColor[i][1], foodColor[i][2]);
-    circle(currX, currY, 20);
-  }
-}
-
-/**
- * Check if the food is eaten.
- * @return index of eaten food, -1 if none is eaten.
- */
-int checkEatenFood() {
-  for (int i = 0; i < 4; i++) {
-    if (x.get(0) == foodPos[i][0] && y.get(0) == foodPos[i][1]) {
-      return i;
-    }
+void updateSpeed(int option) {
+  if (isCorrectAnswer(option)) {
+    speed += dSpeed;
   }
 
-  return -1;
-}
-
-void updateFood() {
-  for (int i = 0; i < 4; i++) {
-    int tempX = 0, tempY = 0;
-    boolean isBadPosition = true;
-
-    while (isBadPosition) {
-      isBadPosition = false;
-      tempX = (int) random(0, w);
-      tempY = (int) random(blockMinY, h);
-
-      int headX = x.get(0);
-      int headY = y.get(0);
-
-      // Prevent close spawn to head of snake
-      if (headX - 2 <= tempX && tempX <= headX + 2 &&
-          headY - 2 <= tempY && tempY <= headY + 2) {
-        isBadPosition = true;
-        continue;
-      }
-
-      // Prevent duplicate food position
-      for (int j = 0; j < i; j++) {
-        if (tempX == foodPos[j][0] && tempY == foodPos[j][1]) {
-          isBadPosition = true;
-          break;
-        }
-      }
-    }
-
-    foodPos[i][0] = tempX;
-    foodPos[i][1] = tempY;
-  }
-}
-
-void updateSpeed() {
-  speed = 8 + (x.size() - 1) * 0.2;
-  // if(x.size() % 5 == 0 && speed >= 2) {
-  //   speed -= 1;  // every 5 points speed increase
-  // }
+  speed += dSpeed * 2;
 }
 
 int addScore(int option) {
@@ -220,7 +161,7 @@ void resetGame() {
   //init_arraylist_for_debug(5);
 
   direction = 2;
-  speed = 8;
+  speed = 10;
 
   score = 0;
 
