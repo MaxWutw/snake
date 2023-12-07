@@ -19,19 +19,6 @@ float counter = 0, maxCounter = 100;
 
 int score = 0;
 
-int[][] foodPos = {
-  {15, 20},
-  {30, 20},
-  {45, 20},
-  {60, 20}
-};
-int[][] foodColor = {
-  {255, 0, 0},    // Red
-  {255, 255, 0},  // Yellow
-  {0, 255, 0},    // Green
-  {0, 0, 255}     // Blue
-};
-
 void gameScreen() {
   drawInfo();
   drawSnake();
@@ -148,10 +135,7 @@ void resetGame() {
   x.add(0);
   y.add(15);
 
-  foodPos[0][0] = 15;
-  foodPos[1][0] = 30;
-  foodPos[2][0] = 45;
-  foodPos[3][0] = 60;
+  resetFoodPositions();
 
   foodPos[0][1] = 20;
   foodPos[1][1] = 20;
