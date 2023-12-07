@@ -15,6 +15,7 @@ int screenHeight = 740;
  * 2: Help screen
  * 3: About us screen
  * 4: Game over screen
+ * 5: Advertise screen
  */
 int screen = 0;
 
@@ -44,10 +45,7 @@ void draw() {
   if (screen != 4) {
     background(0);
   }
-  
-  //image(mov, 0, 0, width, height);
-  //delay((int)(mov.duration() * 1000));
-  //frameRate(60);
+
   switch (screen) {
     case 1:
       gameScreen();
