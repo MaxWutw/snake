@@ -23,6 +23,7 @@ void gameScreen() {
   drawInfo();
   drawSnake();
   drawFood();
+  drawObstacles();
 
   counter += speed;
   if (isGameOver()) {
@@ -51,6 +52,7 @@ void gameScreen() {
       updateQuestion();
       updateSpeed(check);
       updateFood();
+      updateObstacles();
     }
     else {
       decreaseSnakeLength();
@@ -137,10 +139,7 @@ void resetGame() {
 
   resetFoodPositions();
 
-  foodPos[0][1] = 20;
-  foodPos[1][1] = 20;
-  foodPos[2][1] = 20;
-  foodPos[3][1] = 20;
+  clearObstacles();
 
   //init_arraylist_for_debug(5);
 

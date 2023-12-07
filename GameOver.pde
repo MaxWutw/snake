@@ -19,6 +19,10 @@ boolean isGameOver() {
     }
   }
 
+  if (isObstableHit()) {
+    return true;
+  }
+
   return false;
 }
 
