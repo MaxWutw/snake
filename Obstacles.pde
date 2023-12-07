@@ -2,6 +2,11 @@ ArrayList<Integer> obstaclesX = new ArrayList<Integer>();
 ArrayList<Integer> obstaclesY = new ArrayList<Integer>();
 
 void drawObstacles() {
+  if (isObstaclesPurified()) {
+    hideObstacles();
+    return;
+  }
+
   noStroke();
   fill(#cccccc);
 
@@ -48,6 +53,14 @@ void updateObstacles() {
         continue;
       }
 
+      // Prevent spawn on snake
+      for (int j = 0; j < x.size(); j++) {
+        if (tempX == x.get(j) && tempY == y.get(j)) {
+          isBadPosition = true;
+          break;
+        }
+      }
+
       // Prevent spawn on food
       for (int j = 0; j < 4; j++) {
         if (tempX == foodPos[j][0] && tempY == foodPos[j][1]) {
@@ -59,6 +72,13 @@ void updateObstacles() {
 
     obstaclesX.set(i, tempX);
     obstaclesY.set(i, tempY);
+  }
+}
+
+void hideObstacles() {
+  for (int i = 0; i < obstaclesX.size(); i++) {
+    obstaclesX.set(i, 500);
+    obstaclesY.set(i, 500);
   }
 }
 

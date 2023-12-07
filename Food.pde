@@ -58,6 +58,14 @@ void updateFood() {
         continue;
       }
 
+      // Prevent spawn on snake
+      for (int j = 0; j < x.size(); j++) {
+        if (tempX == x.get(j) && tempY == y.get(j)) {
+          isBadPosition = true;
+          break;
+        }
+      }
+
       // Prevent duplicate food position
       for (int j = 0; j < i; j++) {
         if (tempX == foodPos[j][0] && tempY == foodPos[j][1]) {
