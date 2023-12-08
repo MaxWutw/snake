@@ -3,6 +3,11 @@ String gameOverMessage;
 float gameOverMessageX = screenWidth / 2;
 float gameOverMessageY = screenHeight / 3;
 
+float gameOverBlockX = screenWidth / 2 - 200;
+float gameOverBlockY = blockMinY + 170;
+float gameOverBlockWidth  = 400;
+float gameOverBlockHeight = 500;
+
 boolean drawGameOverOnce = true;
 
 boolean isGameOver() {
@@ -30,6 +35,11 @@ void gameOverScreen() {
   if (!drawGameOverOnce) {
     return;
   }
+
+  stroke(255);
+  strokeWeight(2);
+  fill(255, 100);
+  rect(gameOverBlockX, gameOverBlockY, gameOverBlockWidth, gameOverBlockHeight);
 
   gameOverMessage = "GAME OVER\nYour Score is: " + score + "\nPress ENTER to restart";
   drawMessage(gameOverMessage, gameOverMessageX, gameOverMessageY, 30, #C8C800);
