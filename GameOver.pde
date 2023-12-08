@@ -4,9 +4,9 @@ float gameOverMessageX = screenWidth / 2;
 float gameOverMessageY = screenHeight / 3;
 
 float gameOverBlockX = screenWidth / 2 - 200;
-float gameOverBlockY = blockMinY + 170;
+float gameOverBlockY = screenHeight / 3 - 75;
 float gameOverBlockWidth  = 400;
-float gameOverBlockHeight = 500;
+float gameOverBlockHeight = 150;
 
 boolean drawGameOverOnce = true;
 
@@ -32,20 +32,19 @@ boolean isGameOver() {
 }
 
 void gameOverScreen() {
-  if (!drawGameOverOnce) {
-    return;
+  if (drawGameOverOnce) {
+    // return;
+    stroke(255);
+    strokeWeight(2);
+    fill(70);
+    rect(gameOverBlockX, gameOverBlockY, gameOverBlockWidth, gameOverBlockHeight);
+
+    gameOverMessage = "GAME OVER\nYour Score is: " + score + "\nPress ENTER to restart";
+    drawMessage(gameOverMessage, gameOverMessageX, gameOverMessageY, 28, #C8C800);
+
+    drawGameOverOnce = false;
   }
-
-  stroke(255);
-  strokeWeight(2);
-  fill(255, 100);
-  rect(gameOverBlockX, gameOverBlockY, gameOverBlockWidth, gameOverBlockHeight);
-
-  gameOverMessage = "GAME OVER\nYour Score is: " + score + "\nPress ENTER to restart";
-  drawMessage(gameOverMessage, gameOverMessageX, gameOverMessageY, 30, #C8C800);
 
   drawButton("Home", backToHomeButtonX, backToHomeButtonY,
     backToHomeButtonWidth, backToHomeButtonHeight);
-
-  drawGameOverOnce = false;
 }
