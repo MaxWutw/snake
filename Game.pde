@@ -14,7 +14,7 @@ int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x
 
 int blockMinY = 7;
 
-float speed = 10, dSpeed = 0.4;
+float speed = 10, dSpeed = 0.5;
 float counter = 0, maxCounter = 100;
 
 int score = 0;
@@ -117,9 +117,9 @@ int newDirection() {
 void updateSpeed(int option) {
   if (isCorrectAnswer(option)) {
     speed += dSpeed;
+  } else {
+    speed += dSpeed * 2;
   }
-
-  speed += dSpeed * 2;
 }
 
 int addScore(int option) {
