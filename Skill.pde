@@ -13,10 +13,10 @@ float skillCDHeight = blocks * 4;
 float skillCDY = blocks;
 
 void drawSkillPanel() {
-  drawSkillCooldown("REVERSE", "W", currReverseCD, 0, blocks * 60, skillCDY);
+  drawSkillCooldown("REVERSE", "W", currReverseCD, 0, blocks * 65, skillCDY);
 
   if (x.size() >= 10) {
-    drawSkillCooldown("PURIFY", "R", currPurifyCD, currPurifyDuration, blocks * 65, skillCDY);
+    drawSkillCooldown("PURIFY", "R", currPurifyCD, currPurifyDuration, blocks * 60, skillCDY);
   }
 }
 

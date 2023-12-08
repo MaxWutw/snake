@@ -30,3 +30,16 @@ void drawMessage(String message, float messageX, float messageY, float fontSize,
 
   popMatrix();
 }
+
+void drawInfo(String message, float messageX, float messageY, float fontSize, color fontColor) {
+  pushMatrix();
+
+  translate(messageX, messageY);
+
+  fill(fontColor);
+  textSize(fontSize);
+  textAlign(LEFT, CENTER);
+  text(message, 0, 0);
+
+  popMatrix();
+}

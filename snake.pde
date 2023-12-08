@@ -22,9 +22,6 @@ int screen = 0;
 void setup() {
   size(1440, 740);
 
-  x.add(0); //snake start position
-  y.add(15);
-
   img = loadImage("image/apple.png");
   TCfont = createFont("./Noto_Sans_TC/static/NotoSansTC-Black.ttf", 28);
 
@@ -34,6 +31,7 @@ void setup() {
 
   videoSetup();
 
+  initSnake();
   //init_arraylist_for_debug(5);
 }
 

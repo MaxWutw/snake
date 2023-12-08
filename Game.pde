@@ -9,7 +9,7 @@ int w = 72, h = 37, blocks = 20;
  * 2: Right
  * 3: Left
  */
-int direction = 2;
+int direction = 0;
 int[]x_direction = {0, 0, 1, -1}, y_direction = {1, -1, 0, 0}; //direction for x and y
 
 int blockMinY = 7;
@@ -18,6 +18,23 @@ float speed = 10, dSpeed = 0.5;
 float counter = 0, maxCounter = 100;
 
 int score = 0;
+int correct   = 0, correctCheck   = 10;
+int incorrect = 0, incorrectCheck = 3;
+
+float infoSize  = 24;
+color infoColor = 255;
+
+float scoreInfoX = blocks * 2;
+float scoreInfoY = blocks + blocks * (blockMinY - 1) / 3;
+
+float speedInfoX = blocks * 2;
+float speedInfoY = blocks + blocks * (blockMinY - 1) / 3 * 2;
+
+float comboInfoX = blocks * 12;
+float comboInfoY = blocks + blocks * (blockMinY - 1) / 3;
+
+float bonusInfoX = blocks * 12;
+float bonusInfoY = blocks + blocks * (blockMinY - 1) / 3 * 2;
 
 void gameScreen() {
   drawInfo();
@@ -41,16 +58,28 @@ void gameScreen() {
 
     int check = checkEatenFood();
     if (check != -1) {
-      // Add length if the answer is incorrect
-      if (addScore(check) == 0) {
+      if (isCorrectAnswer(check)) {
+        correct++;
+        incorrect = 0;
+
+        score += 3 * (correct / 5 + 1);
+        speed += dSpeed;
+      } else {
+        // Add length if the answer is incorrect
         increaseSnakeLength();
-        screen = 5;
+
+        incorrect++;
+        correct = 0;
+
+        score -= 1;
+        speed += dSpeed * 2;
+
+        if (incorrect % incorrectCheck == 0) {
+          screen = 5;
+        }
       }
 
-      score += addScore(check);
-
       updateQuestion();
-      updateSpeed(check);
       updateFood();
       updateObstacles();
     }
@@ -64,14 +93,14 @@ void gameScreen() {
 
 void drawInfo() {
   drawQuestion();
-
   drawSkillPanel();
+  drawCombo();
 
-  String scoreMessage = "Score: " + score;
-  drawMessage(scoreMessage, blocks * 4, blocks * blockMinY / 2, 25, 255);
+  String scoreInfo = "Score: " + score;
+  drawInfo(scoreInfo, scoreInfoX, scoreInfoY, infoSize, infoColor);
 
-  String speedMessage = "Speed: " + String.format("%.1f", speed);
-  drawMessage(speedMessage, blocks * 14, blocks * blockMinY / 2, 25, 255);
+  String speedInfo = "Speed: " + String.format("%.1f", speed);
+  drawInfo(speedInfo, speedInfoX, speedInfoY, infoSize, infoColor);
 
   // Straight line
   stroke(255);
@@ -79,13 +108,68 @@ void drawInfo() {
   line(0, blocks * blockMinY, width, blocks * blockMinY);
 }
 
+void drawCombo() {
+  if (incorrect > 0) {
+    String comboInfo = "Combo × " + incorrect;
+    drawInfo(comboInfo, comboInfoX, comboInfoY, infoSize, #ff0000);
+  }
+
+  if (correct > 0) {
+    String comboInfo = "Combo × " + correct;
+    String bonusInfo = "Score × " + (correct / 5 + 1);
+
+    color comboInfoColor = 0;
+
+    if (correct >= correctCheck) {
+      float ang  = TWO_PI * (1.0 - float((millis() / 120))) / 24.0;
+      float rsin = rgbColor(ang, 1);
+      float gsin = rgbColor(2.0 * ang / 3.0, 3);
+      float bsin = rgbColor(4.0 * ang / 5.0, 6);
+      comboInfoColor = color(rsin, gsin, bsin);
+    } else {
+      comboInfoColor = #00ff00;
+    }
+
+    drawInfo(comboInfo, comboInfoX, comboInfoY, infoSize, comboInfoColor);
+    drawInfo(bonusInfo, bonusInfoX, bonusInfoY, infoSize, comboInfoColor);
+  }
+}
+
+int rgbColor(float angle, int offset) {
+  float val = sin(angle + int(TWO_PI / offset));
+
+  return int(map(val, -1.0, 1.0, 64, 255));
+}
+
+void initSnake() {
+  x.clear();
+  y.clear();
+
+  x.add(36);
+  y.add(blockMinY);
+
+  direction = 0;
+}
+
 void drawSnake() {
   for (int i = x.size() - 1; i >= 0; i--) {
-    if (i == 0) fill(255, 0, 0); // RED
-    else fill(0, 255, 0); // GREEN
+    if (i == 0) {
+      // White head
+      fill(255);
+    } else if (correct >= correctCheck) {
+      // RGB body
+      float ang  = TWO_PI * (float(i) - float((millis() / 120))) / 24.0;
+      float rsin = rgbColor(ang, 1);
+      float gsin = rgbColor(2.0 * ang / 3.0, 3);
+      float bsin = rgbColor(4.0 * ang / 5.0, 6);
 
-    stroke(255);
-    strokeWeight(1.5);
+      fill(rsin, gsin, bsin);
+    } else {
+      // Green body
+      fill(0, 255, 0);
+    }
+
+    noStroke();
     rect(x.get(i) * blocks, y.get(i) * blocks, blocks, blocks);
   }
 }
@@ -114,28 +198,8 @@ int newDirection() {
   return -1;
 }
 
-void updateSpeed(int option) {
-  if (isCorrectAnswer(option)) {
-    speed += dSpeed;
-  } else {
-    speed += dSpeed * 2;
-  }
-}
-
-int addScore(int option) {
-  if (isCorrectAnswer(option)) {
-    return 3;
-  }
-
-  return 0;
-}
-
 void resetGame() {
-  x.clear();
-  y.clear();
-
-  x.add(0);
-  y.add(15);
+  initSnake();
 
   resetFoodPositions();
 
@@ -143,10 +207,11 @@ void resetGame() {
 
   //init_arraylist_for_debug(5);
 
-  direction = 2;
   speed = 10;
 
   score = 0;
+  correct   = 0;
+  incorrect = 0;
 
   resetCooldown();
 
