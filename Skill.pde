@@ -1,10 +1,10 @@
 float reverseCD = 10 * int(frameRate);
 float currReverseCD = 0;
 
-float purifyCD = 30 * int(frameRate);
+float purifyCD = 40 * int(frameRate);
 float currPurifyCD = 0;
 
-float purifyDuration = 8 * int(frameRate);
+float purifyDuration = 10 * int(frameRate);
 float currPurifyDuration = 0;
 
 float skillCDWidth  = blocks * 4;
@@ -13,10 +13,10 @@ float skillCDHeight = blocks * 4;
 float skillCDY = blocks;
 
 void drawSkillPanel() {
-  drawSkillCooldown("REVERSE", "W", currReverseCD, 0, blocks * 53, skillCDY);
+  drawSkillCooldown("REVERSE", "W", currReverseCD, 0, blocks * 60, skillCDY);
 
   if (x.size() >= 10) {
-    drawSkillCooldown("PURIFY", "R", currPurifyCD, currPurifyDuration, blocks * 58, skillCDY);
+    drawSkillCooldown("PURIFY", "R", currPurifyCD, currPurifyDuration, blocks * 65, skillCDY);
   }
 }
 
@@ -76,7 +76,7 @@ void reverseSnake() {
   Collections.reverse(x);
   Collections.reverse(y);
 
-  delay(100);
+  // delay(100);
 
   currReverseCD = reverseCD;
 }
@@ -108,7 +108,7 @@ void drawSkillCooldown(String skillName, String skillKey, float skillCooldown, f
     skillMessage = "Ready";
     skillColor   = #ffd700;
   }
-  
+
   pushMatrix();
 
   translate(skillX, skillY);
