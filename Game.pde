@@ -18,7 +18,7 @@ float speed = 10, dSpeed = 0.5;
 float counter = 0, maxCounter = 100;
 
 int score = 0;
-int correct   = 0, correctCheck   = 10;
+int correct   = 0, correctCheck   = 3;
 int incorrect = 0, incorrectCheck = 3;
 
 float infoSize  = 24;
@@ -97,9 +97,9 @@ void drawInfo() {
   drawCombo();
 
   String scoreInfo = "Score: " + score;
-  drawInfo(scoreInfo, scoreInfoX, scoreInfoY, infoSize, infoColor);
-
   String speedInfo = "Speed: " + String.format("%.1f", speed);
+
+  drawInfo(scoreInfo, scoreInfoX, scoreInfoY, infoSize, infoColor);
   drawInfo(speedInfo, speedInfoX, speedInfoY, infoSize, infoColor);
 
   // Straight line
@@ -121,11 +121,7 @@ void drawCombo() {
     color comboInfoColor = 0;
 
     if (correct >= correctCheck) {
-      float ang  = TWO_PI * (1.0 - float((millis() / 120))) / 24.0;
-      float rsin = rgbColor(ang, 1);
-      float gsin = rgbColor(2.0 * ang / 3.0, 3);
-      float bsin = rgbColor(4.0 * ang / 5.0, 6);
-      comboInfoColor = color(rsin, gsin, bsin);
+      comboInfoColor = rgbColor(1);
     } else {
       comboInfoColor = #00ff00;
     }
@@ -135,10 +131,17 @@ void drawCombo() {
   }
 }
 
-int rgbColor(float angle, int offset) {
-  float val = sin(angle + int(TWO_PI / offset));
+color rgbColor(int index) {
+  float ang  = TWO_PI * (float(index) - float((millis() / 120))) / 24.0;
+  float rsin = sin(1.0 * ang / 1.0 + int(TWO_PI / 1.0));
+  float gsin = sin(2.0 * ang / 3.0 + int(TWO_PI / 3.0));
+  float bsin = sin(4.0 * ang / 5.0 + int(TWO_PI / 6.0));
 
-  return int(map(val, -1.0, 1.0, 64, 255));
+  rsin = int(map(rsin, -1.0, 1.0, 64, 255));
+  gsin = int(map(gsin, -1.0, 1.0, 64, 255));
+  bsin = int(map(bsin, -1.0, 1.0, 64, 255));
+
+  return color(rsin, gsin, bsin);
 }
 
 void initSnake() {
@@ -155,18 +158,13 @@ void drawSnake() {
   for (int i = x.size() - 1; i >= 0; i--) {
     if (i == 0) {
       // White head
-      fill(255);
+      fill(#ffffff);
     } else if (correct >= correctCheck) {
       // RGB body
-      float ang  = TWO_PI * (float(i) - float((millis() / 120))) / 24.0;
-      float rsin = rgbColor(ang, 1);
-      float gsin = rgbColor(2.0 * ang / 3.0, 3);
-      float bsin = rgbColor(4.0 * ang / 5.0, 6);
-
-      fill(rsin, gsin, bsin);
+      fill(rgbColor(i));
     } else {
       // Green body
-      fill(0, 255, 0);
+      fill(#00ff00);
     }
 
     noStroke();
