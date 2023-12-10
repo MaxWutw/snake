@@ -18,7 +18,7 @@ float speed = 10, dSpeed = 0.5;
 float counter = 0, maxCounter = 100;
 
 int score = 0;
-int correct   = 0, correctCheck   = 3;
+int correct   = 0, correctCheck   = 10;
 int incorrect = 0, incorrectCheck = 3;
 
 float infoSize  = 24;

@@ -1,45 +1,52 @@
-float reverseCD = 10 * int(frameRate);
-float currReverseCD = 0;
+final int REVERSE = 0;
+final int PURIFY  = 1;
+final int BOOST   = 2;
 
-float purifyCD = 40 * int(frameRate);
-float currPurifyCD = 0;
+final String[] skillName = {"Reverse", "Purify", "Boost"};
+final char[] skillKey    = {'W', 'R', 'C'};
 
-float purifyDuration = 10 * int(frameRate);
-float currPurifyDuration = 0;
+final int[] minSnakeLength = {2, 10, 10};
 
-float skillCDWidth  = blocks * 4;
-float skillCDHeight = blocks * 4;
+final int[] skillCD  = {10, 40, 60};
+int[] currSkillCD    = {0, 0, 0};
 
-float skillCDY = blocks;
+final int[] skillDur = {0, 10, 20};
+int[] currSkillDur   = {0, 0, 0};
+
+final float skillCDWidth  = blocks * 4;
+final float skillCDHeight = blocks * 4;
+
+final float[][] skillPos = {
+  {blocks * 65, blocks},
+  {blocks * 60, blocks},
+  {blocks * 55, blocks},
+};
 
 void drawSkillPanel() {
-  drawSkillCooldown("REVERSE", "W", currReverseCD, 0, blocks * 65, skillCDY);
-
-  if (x.size() >= 10) {
-    drawSkillCooldown("PURIFY", "R", currPurifyCD, currPurifyDuration, blocks * 60, skillCDY);
+  for (int i = 0; i < skillName.length; i++) {
+    if (x.size() >= minSnakeLength[i]) {
+      drawSkillCooldown(skillName[i], skillKey[i], currSkillCD[i], currSkillDur[i], skillPos[i][0], skillPos[i][1]);
+    }
   }
 }
 
 void skillCooldownTimer() {
-  if (currReverseCD > 0) {
-    currReverseCD--;
-  }
+  for (int i = 0; i < skillName.length; i++) {
+    if (currSkillCD[i] > 0) {
+      currSkillCD[i]--;
+    }
 
-  if (currPurifyCD > 0) {
-    currPurifyCD--;
+    if (currSkillDur[i] > 0) {
+      currSkillDur[i]--;
+    }
   }
-
-  if (currPurifyDuration > 0) {
-    currPurifyDuration--;
-  }
-
-  // if (frameCount % 60 == 0) println("cd: " + currReverseCD);
 }
 
 void resetCooldown() {
-  currReverseCD = 0;
-  currPurifyCD = 0;
-  currPurifyDuration = 0;
+  for (int i = 0; i < skillName.length; i++) {
+    currSkillCD[i]  = 0;
+    currSkillDur[i] = 0;
+  }
 }
 
 void checkSkillKeyPressed() {
@@ -47,17 +54,23 @@ void checkSkillKeyPressed() {
     return;
   }
 
-  if (key == 'w' || key == 'W') {
+  int offset = 'a' - 'A';
+
+  if (key == skillKey[REVERSE] || key == skillKey[REVERSE] + offset) {
     reverseSnake();
   }
 
-  if (key == 'r' || key == 'R') {
+  if (key == skillKey[PURIFY] || key == skillKey[PURIFY] + offset) {
     purifyObstacles();
   }
 }
 
+int startTimer(int dur) {
+  return dur * int(frameRate);
+}
+
 void reverseSnake() {
-  if (x.size() <= 1 || currReverseCD != 0) {
+  if (x.size() < minSnakeLength[REVERSE] || currSkillCD[REVERSE] != 0) {
     return;
   }
 
@@ -76,25 +89,23 @@ void reverseSnake() {
   Collections.reverse(x);
   Collections.reverse(y);
 
-  // delay(100);
-
-  currReverseCD = reverseCD;
+  currSkillCD[REVERSE] = startTimer(skillCD[REVERSE]);
 }
 
 void purifyObstacles() {
-  if (x.size() < 10 || currPurifyCD != 0) {
+  if (x.size() < minSnakeLength[PURIFY] || currSkillCD[PURIFY] != 0) {
     return;
   }
 
-  currPurifyCD = purifyCD;
-  currPurifyDuration = purifyDuration;
+  currSkillCD[PURIFY]  = startTimer(skillCD[PURIFY]);
+  currSkillDur[PURIFY] = startTimer(skillDur[PURIFY]);
 }
 
 boolean isObstaclesPurified() {
-  return (currPurifyDuration != 0);
+  return (currSkillDur[PURIFY] != 0);
 }
 
-void drawSkillCooldown(String skillName, String skillKey, float skillCooldown, float skillDuration, float skillX, float skillY) {
+void drawSkillCooldown(String skillName, char skillKey, float skillCooldown, float skillDuration, float skillX, float skillY) {
   String skillMessage = "";
   color skillColor = 0;
 
