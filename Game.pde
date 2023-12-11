@@ -42,53 +42,51 @@ void gameScreen() {
   drawFood();
   drawObstacles();
 
-  counter += speed;
   if (isGameOver()) {
     screen = 4;
   }
 
-  if (counter >= maxCounter) {
-    // println(y.get(0));
-    // if(key == 'a'){
-    //   for(int i = 0;i < x.size();i++) print(x.get(i) + " ");
-    //   delay(10000);
-    // }
-
-    increaseSnakeLength();
-
-    int check = checkEatenFood();
-    if (check != -1) {
-      if (isCorrectAnswer(check)) {
-        correct++;
-        incorrect = 0;
-
-        score += 3 * (correct / 5 + 1);
-        speed += dSpeed;
-      } else {
-        // Add length if the answer is incorrect
-        increaseSnakeLength();
-
-        incorrect++;
-        correct = 0;
-
-        score -= 1;
-        speed += dSpeed * 2;
-
-        if (incorrect % incorrectCheck == 0) {
-          screen = 5;
-        }
-      }
-
-      updateQuestion();
-      updateFood();
-      updateObstacles();
-    }
-    else {
-      decreaseSnakeLength();
-    }
-
-    counter -= maxCounter;
+  counter += speed;
+  if (counter < maxCounter) {
+    return;
   }
+
+  increaseSnakeLength();
+
+  int check = checkEatenFood();
+  if (check != -1) {
+    int boost = (isPointBoosted() ? 2 : 1);
+
+    if (isCorrectAnswer(check)) {
+      score += 3 * (correct / 5 + 1) * boost;
+      speed += dSpeed * boost;
+
+      correct++;
+      incorrect = 0;
+    } else {
+      // Add length if the answer is incorrect
+      increaseSnakeLength();
+
+      score -= 1 * (incorrect / 3 + 1) * boost;
+      speed += dSpeed * 2 * boost;
+
+      incorrect++;
+      correct = 0;
+
+      if ((incorrect % incorrectCheck == 0) && enableAdvertise()) {
+        screen = 5;
+      }
+    }
+
+    updateQuestion();
+    updateFood();
+    updateObstacles();
+  }
+  else {
+    decreaseSnakeLength();
+  }
+
+  counter -= maxCounter;
 }
 
 void drawInfo() {
@@ -109,14 +107,19 @@ void drawInfo() {
 }
 
 void drawCombo() {
+  int boost = (isPointBoosted() ? 2 : 1);
+
   if (incorrect > 0) {
-    String comboInfo = "Combo × " + incorrect;
+    String comboInfo = "Combo × " + incorrect * boost;
+    String bonusInfo = "Score × " + -(incorrect / 5 + 1) * boost;
+
     drawInfo(comboInfo, comboInfoX, comboInfoY, infoSize, #ff0000);
+    drawInfo(bonusInfo, bonusInfoX, bonusInfoY, infoSize, #ff0000);
   }
 
   if (correct > 0) {
-    String comboInfo = "Combo × " + correct;
-    String bonusInfo = "Score × " + (correct / 5 + 1);
+    String comboInfo = "Combo × " + correct * boost;
+    String bonusInfo = "Score × " + (correct / 5 + 1) * boost;
 
     color comboInfoColor = 0;
 

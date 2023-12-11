@@ -63,6 +63,10 @@ void checkSkillKeyPressed() {
   if (key == skillKey[PURIFY] || key == skillKey[PURIFY] + offset) {
     purifyObstacles();
   }
+
+  if (key == skillKey[BOOST] || key == skillKey[BOOST] + offset) {
+    boostPoints();
+  }
 }
 
 int startTimer(int dur) {
@@ -103,6 +107,19 @@ void purifyObstacles() {
 
 boolean isObstaclesPurified() {
   return (currSkillDur[PURIFY] != 0);
+}
+
+void boostPoints() {
+  if (x.size() < minSnakeLength[BOOST] || currSkillCD[BOOST] != 0) {
+    return;
+  }
+
+  currSkillCD[BOOST]  = startTimer(skillCD[BOOST]);
+  currSkillDur[BOOST] = startTimer(skillDur[BOOST]);
+}
+
+boolean isPointBoosted() {
+  return (currSkillDur[BOOST] != 0);
 }
 
 void drawSkillCooldown(String skillName, char skillKey, float skillCooldown, float skillDuration, float skillX, float skillY) {

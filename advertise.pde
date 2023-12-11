@@ -5,6 +5,10 @@ Movie mov;
 int movieStartMillis = 0;
 boolean movie_update = true;
 
+boolean enableAdvertise() {
+  return false;
+}
+
 void movieEvent(Movie m) {
   m.read();
 }
@@ -15,7 +19,6 @@ void videoScreen(){
 
   //println("movieStartMillis:" + movieStartMillis);
 
-  // if (millis() >= 0) {
   if (millis() >= (movieStartMillis + mov.duration() * 1000)) {
     screen = 1;
     movieStartMillis = 0;
