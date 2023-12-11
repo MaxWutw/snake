@@ -5,7 +5,7 @@ final int BOOST   = 2;
 final String[] skillName = {"Reverse", "Purify", "Boost"};
 final char[] skillKey    = {'W', 'R', 'C'};
 
-final int[] minSnakeLength = {2, 10, 10};
+final int[] minSnakeLength = {2, 11, 11};
 
 final int[] skillCD  = {10, 40, 60};
 int[] currSkillCD    = {0, 0, 0};

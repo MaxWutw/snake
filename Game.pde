@@ -110,7 +110,7 @@ void drawCombo() {
   int boost = (isPointBoosted() ? 2 : 1);
 
   if (incorrect > 0) {
-    String comboInfo = "Combo × " + incorrect * boost;
+    String comboInfo = "Combo × " + incorrect;
     String bonusInfo = "Score × " + -(incorrect / 5 + 1) * boost;
 
     drawInfo(comboInfo, comboInfoX, comboInfoY, infoSize, #ff0000);
@@ -118,7 +118,7 @@ void drawCombo() {
   }
 
   if (correct > 0) {
-    String comboInfo = "Combo × " + correct * boost;
+    String comboInfo = "Combo × " + correct;
     String bonusInfo = "Score × " + (correct / 5 + 1) * boost;
 
     color comboInfoColor = 0;

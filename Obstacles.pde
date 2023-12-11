@@ -29,7 +29,7 @@ boolean isObstableHit() {
 }
 
 void updateObstacles() {
-  while (x.size() / 10 > obstaclesX.size() / 3) {
+  while ((x.size() - 1) / 10 > obstaclesX.size() / 3) {
     obstaclesX.add(0, 0);
     obstaclesY.add(0, 0);
   }
