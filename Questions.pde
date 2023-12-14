@@ -49,12 +49,12 @@ void drawQuestion() {
 }
 
 void updateQuestion() {
-  int questionID = currQuestion.getInt("id");
-  answeredQuestions.add(questionID);
-
   if (answeredQuestions.size() == questions.size()) {
     answeredQuestions.clear();
   }
+
+  int questionID = currQuestion.getInt("id");
+  answeredQuestions.add(questionID);
 
   boolean isRepeatQuestion = true;
   int randomNum = -1;

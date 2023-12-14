@@ -214,6 +214,8 @@ void resetGame() {
   correct   = 0;
   incorrect = 0;
 
+  answeredQuestions.clear();
+
   resetCooldown();
 
   drawGameOverOnce = true;
