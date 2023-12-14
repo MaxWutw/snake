@@ -1,3 +1,9 @@
+float toHomeButtonWidth  = 200;
+float toHomeButtonHeight = 50;
+
+float toHomeButtonX = screenWidth / 2 - toHomeButtonWidth / 2;
+float toHomeButtonY = 600;
+
 void drawButton(String name, float btnX, float btnY, float btnW, float btnH) {
   boolean onButton = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY && mouseY <= btnY + btnH);
 
@@ -16,6 +22,10 @@ void drawButton(String name, float btnX, float btnY, float btnW, float btnH) {
   text(name, btnW / 2, btnH / 2);
 
   popMatrix();
+}
+
+void drawHomeButton() {
+  drawButton("Home", toHomeButtonX, toHomeButtonY, toHomeButtonWidth, toHomeButtonHeight);
 }
 
 void drawMessage(String message, float messageX, float messageY, float fontSize, color fontColor) {

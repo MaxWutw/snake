@@ -33,7 +33,6 @@ boolean isGameOver() {
 
 void gameOverScreen() {
   if (drawGameOverOnce) {
-    // return;
     stroke(255);
     strokeWeight(2);
     fill(70);
@@ -45,6 +44,5 @@ void gameOverScreen() {
     drawGameOverOnce = false;
   }
 
-  drawButton("Home", backToHomeButtonX, backToHomeButtonY,
-    backToHomeButtonWidth, backToHomeButtonHeight);
+  drawHomeButton();
 }
